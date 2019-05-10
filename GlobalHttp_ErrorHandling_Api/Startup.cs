@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GlobalHttp_ErrorHandling_Api.Domain.Repositories_Interfaces;
+using GlobalHttp_ErrorHandling_Api.Domain.Services_Interfaces;
+using GlobalHttp_ErrorHandling_Api.Persistence;
+using GlobalHttp_ErrorHandling_Api.Persistence.Repositories;
+using GlobalHttp_ErrorHandling_Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,6 +32,13 @@ namespace GlobalHttp_ErrorHandling_Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContext<AppDbContext>(options => {
+                options.UseNpgsql("server=localhost;user id=postgres;password=postgres;database=error_handling_database");
+            });
+
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectService, ProjectServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
