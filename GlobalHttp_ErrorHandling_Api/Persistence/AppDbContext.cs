@@ -25,11 +25,6 @@ namespace GlobalHttp_ErrorHandling_Api.Persistence
             builder.Entity<Project>().Property(p => p.creation_data).IsRequired();
             builder.Entity<Project>().Property(p => p.description).IsRequired().HasMaxLength(100);
 
-            builder.Entity<Project>().HasData
-            (
-                new Project { Id = 1, Name = "projectOne", creation_data = DateTime.Now, description = "proyecto prueba 1"}, // Id set manually due to in-memory provider
-                new Project { Id = 2, Name = "projectTwo", creation_data = DateTime.Now, description = "proyecto prueba 2" }
-            );
         }
     }
 }
